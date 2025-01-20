@@ -1,0 +1,1 @@
+Fig. 3. The optimized structure of alnumycin A1a (1a), ﬁrst conformer {M06-2X/ 6-31G(d) level of theory} in the gas phase. Relative energies: DE: 0.1, 0.0, and 2.5 kcal/mol; DG(cid:3): 0.0, 0.2, and 3.4 kcal/mol. Relative Boltzmann populations: 56.2%, 43.6%, and 0.2%. 

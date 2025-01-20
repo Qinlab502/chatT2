@@ -1,0 +1,1 @@
+Figure 3. The Laplacian matrix eigenvalues of a signal that is sensed from the monitored area of Figure 2. 

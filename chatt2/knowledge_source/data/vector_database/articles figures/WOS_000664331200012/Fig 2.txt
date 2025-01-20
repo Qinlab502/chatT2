@@ -1,0 +1,1 @@
+Figure 2. Phylogenetic tree of GTs from Streptomyces-derived natural product biosynthesis and the modeled structure of Med-8. (A) Diﬀerent types of GTs create distinctive evolutionary branches. (B) The modeled structure of Med-8 obtained using the protein structure of UrdGT2 (PDB code: 2P6P) as a template showed similar Rossmann-type chain folds conserved to type-B GTs. 

@@ -1,0 +1,1 @@
+Figure 4. (a) Comparison of the experimental ECD spectra of 1−5 measured in MeCN; (b) comparison of the experimental ECD spectrum of 2 in MeCN to the sTDA-CAM-B3LYP spectrum of (aS,12R,12′R)-2 computed from the CAM-B3LYP/TZVP single- point data. Level of optimization: CAM-B3LYP/TZVP PCM/MeCN. Bars represent the rotational strength values of the lowest-energy conformer. 

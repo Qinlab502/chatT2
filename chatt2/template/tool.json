@@ -1,0 +1,196 @@
+[
+    {
+        "name": "extract_genomic_DNA",
+        "description": "Extract genomic DNA from microbial samples to identify polyketide synthase (PKS) gene clusters.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "sample_id": {
+                    "type": "string",
+                    "description": "The unique identifier for the microbial sample."
+                },
+                "extraction_protocol": {
+                    "type": "string",
+                    "description": "The protocol used for DNA extraction (e.g., Qiagen Kit, Phenol-Chloroform)."
+                }
+            },
+            "required": [
+                "sample_id",
+                "extraction_protocol"
+            ]
+        }
+    },
+    {
+        "name": "amplify_PKS_genes",
+        "description": "Amplify the PKS gene clusters using PCR with degenerate primers.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "DNA_sample_id": {
+                    "type": "string",
+                    "description": "The unique identifier for the extracted DNA sample."
+                },
+                "primer_set": {
+                    "type": "string",
+                    "description": "The degenerate primer set used for amplifying PKS genes."
+                },
+                "PCR_conditions": {
+                    "type": "string",
+                    "description": "The thermal cycler conditions for PCR (e.g., annealing temperature, extension time)."
+                }
+            },
+            "required": [
+                "DNA_sample_id",
+                "primer_set",
+                "PCR_conditions"
+            ]
+        }
+    },
+    {
+        "name": "sequence_PKS_products",
+        "description": "Sequence the PCR products to identify the PKS gene cluster sequences.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "PCR_product_id": {
+                    "type": "string",
+                    "description": "The unique identifier for the PCR product."
+                },
+                "sequencing_technology": {
+                    "type": "string",
+                    "description": "The technology used for sequencing (e.g., Sanger, Illumina)."
+                }
+            },
+            "required": [
+                "PCR_product_id",
+                "sequencing_technology"
+            ]
+        }
+    },
+    {
+        "name": "annotate_PKS_clusters",
+        "description": "Analyze sequencing data to identify and annotate PKS gene clusters.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "sequencing_data": {
+                    "type": "string",
+                    "description": "The file path to the sequencing data (e.g., FASTA or FASTQ file)."
+                },
+                "annotation_tool": {
+                    "type": "string",
+                    "description": "The bioinformatics tool used for annotation (e.g., AntiSMASH, BLAST)."
+                }
+            },
+            "required": [
+                "sequencing_data",
+                "annotation_tool"
+            ]
+        }
+    },
+    {
+        "name": "analyze_PKS_products",
+        "description": "Perform LC-MS or NMR analysis to identify the structure of polyketide products.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "sample_id": {
+                    "type": "string",
+                    "description": "The unique identifier for the purified polyketide sample."
+                },
+                "analysis_method": {
+                    "type": "string",
+                    "description": "The method used for structural analysis (e.g., LC-MS, NMR)."
+                }
+            },
+            "required": [
+                "sample_id",
+                "analysis_method"
+            ]
+        }
+    },
+    {
+        "name": "simulate_PKS_biosynthesis",
+        "description": "Simulate the biosynthesis pathway of a polyketide using computational models.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "PKS_cluster_sequence": {
+                    "type": "string",
+                    "description": "The nucleotide or amino acid sequence of the PKS gene cluster."
+                },
+                "simulation_tool": {
+                    "type": "string",
+                    "description": "The computational tool used for biosynthesis simulation (e.g., PKSPredictor2, AntiSMASH)."
+                }
+            },
+            "required": [
+                "PKS_cluster_sequence",
+                "simulation_tool"
+            ]
+        }
+    },
+    {
+        "name": "design_PKS_mutants",
+        "description": "Design mutant PKS gene clusters to optimize product yields or generate novel products.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "PKS_cluster_sequence": {
+                    "type": "string",
+                    "description": "The sequence of the PKS gene cluster to be mutated."
+                },
+                "mutation_strategy": {
+                    "type": "string",
+                    "description": "The strategy used for mutation (e.g., site-directed mutagenesis, CRISPR)."
+                }
+            },
+            "required": [
+                "PKS_cluster_sequence",
+                "mutation_strategy"
+            ]
+        }
+    },
+    {
+        "name": "visualize_PKS_pathways",
+        "description": "Generate visual representations of PKS biosynthetic pathways.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "PKS_cluster_data": {
+                    "type": "string",
+                    "description": "Data describing the PKS gene cluster and its functional domains."
+                },
+                "output_format": {
+                    "type": "string",
+                    "description": "The format of the visualization (e.g., PNG, PDF)."
+                }
+            },
+            "required": [
+                "PKS_cluster_data",
+                "output_format"
+            ]
+        }
+    },
+    {
+        "name": "save_analysis_to_csv",
+        "description": "Save experimental or computational analysis results to a CSV file.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "string",
+                    "description": "The analysis data in JSON or dictionary format."
+                },
+                "output_csv_name": {
+                    "type": "string",
+                    "description": "The name of the CSV file to save the data."
+                }
+            },
+            "required": [
+                "data",
+                "output_csv_name"
+            ]
+        }
+    }
+]

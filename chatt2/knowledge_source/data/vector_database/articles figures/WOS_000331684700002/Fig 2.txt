@@ -1,0 +1,1 @@
+Figure 3. CD analysis of 1.264-C. (a) Experimental CD spectrum of 1.264-C; (b) the calculated ECD spectra of the two possible enantiomers of 1.264-C (TD-DFT/PCM). 

@@ -1,0 +1,1 @@
+Figure 14. SSN showing putative THCA synthase orthologs with at least 40% sequence identity. Green nodes represent sequences from plant species, yellow from bacterial species, purple from all other Eukaryota species. THCA synthase sequence is denoted by a red node. 

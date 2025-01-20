@@ -1,0 +1,1 @@
+Figure 7.  Early schematics of BGCs2-10 (Table 1, Figure 6) from WMMB235 as annotated using both  PRISM and AntiSmash. Blue ORFs indicate core biosynthetic operons. Transporter operons in BGC2  (yellow), luxR operons found in BGCs3 and 8 (green) and AHBA synthase genes (red) in BGC8 are all  highlighted. 

@@ -1,0 +1,1 @@
+Figure 2. LC-MS (TIC) analysis of the conversion of 4 by RslO5  and active site variants. (A) Purified 4; (B) 4 + RslO5 + FMN +  NADPH; (C) 4 + RslO5-H172N + FMN + NADPH; (D) 4 + RslO5- N175H  +  FMN  +  NADPH;  (E)  4  +  RslO5-Y177F  +  FMN  +  NADPH. See Figs. S5 and S6 for uncropped traces and EIC’s. 

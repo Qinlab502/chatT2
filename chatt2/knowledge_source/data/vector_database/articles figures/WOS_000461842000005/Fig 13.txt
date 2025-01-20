@@ -1,0 +1,1 @@
+Fig. 13 Comparison of the active sites of AmbDH3 and canonical DH domains. AmbDH3 (PDB: 5O15) is shown in green. The rifamycin DH domain (PDB: 4LN9) and phthiocerol DH domain (PDB: 5NJI) are shown in cyan and blue, respectively. The trans-dodec-2-enoyl-CoA molecule in the phthiocerol DH structure is shown as blue sticks. 

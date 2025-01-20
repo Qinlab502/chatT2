@@ -1,0 +1,1 @@
+Fig. 2. Fixed base indices for number of vessels, vessel length, days at sea and crew days. 

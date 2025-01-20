@@ -1,0 +1,1 @@
+Figure 4. Structure of AclR. Superposition of the dimers of SnoaL2 (cyan) and AclR (magenta). Subunits B are shown in darker colors. The upper right helix of AclR is only observed in subunit A, and corresponds to the C- terminal linker peptide and the hexahistidine tag (colored in yellow). 

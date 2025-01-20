@@ -1,0 +1,1 @@
+Fig. 2. Typical single shot waveform produced by the University of Montreal shaper from a signal produced in pure CsI. The signal has a slightly longer peaking time due to the time constant of the scintillation material. 

@@ -1,0 +1,1 @@
+Fig. 8   (a)  Moromycin  A  docked  to  3CLpro,  (b)  2D  structure  of  moromycin A docked to 3CLpro, (c) the surface structure of the com- plex  obtained  from  the  MD  simulations  for  50  ns  and  (d)  the  bind- 

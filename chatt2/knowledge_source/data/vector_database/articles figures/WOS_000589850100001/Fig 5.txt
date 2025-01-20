@@ -1,0 +1,1 @@
+Figure 6. The RMSD plots of ligands-Mpro. The ligands appear to maintain their stability within the binding pocket as they show lower RMSD fluctuations over the 100 nsec simulation period. 

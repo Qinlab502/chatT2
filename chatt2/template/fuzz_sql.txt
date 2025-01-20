@@ -1,0 +1,5 @@
+
+indel_similarity is a custom function used for fuzzy string matching. You need to modify the string matching in the WHERE clause of the SQL statement. For example：将" select * from gene where gene_kind = 'biosynthetic-core' " 改为 "select * from gene where indel_similarity(gene_kind, 'biosynthetic-core')"
+do not insert the custom function into other clauses, like  "join".
+Only modify the matching conditions for columns of type string，including：'titles', 'abstract', 'core_biosynthetic_genes', 'additional_biosynthetic_genes', 'regulatory_genes',  'transport_related_genes', 'organism', 'products_name', 'gene_protein_product', 'gene.gene_kind', 'gene_functions'
+Provide output in JSON format as follows: '{"sql":"..."}'

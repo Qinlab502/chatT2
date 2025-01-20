@@ -1,0 +1,1 @@
+Figure 16. The impact of spatial interpolation technique on the N MAEER. 

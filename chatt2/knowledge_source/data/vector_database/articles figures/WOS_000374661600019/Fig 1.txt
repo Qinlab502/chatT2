@@ -1,0 +1,1 @@
+Fig. 1. R11283 PMT with version 4 preamp produced by the University of Montreal [1] and glued pure CsI puck (AMCRYS) for the aging study. The preamp functions and output are powered and transmitted by a mini-display port cable, whereas the voltage divider has a SHV cable soldered to it. The preamp has a diameter of 5 cm and a length of about 3.8 cm, excluding the ﬂying leads. 

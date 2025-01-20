@@ -1,0 +1,1 @@
+Fig. 6   (a) N3 docked to 3CLpro, (b) 2D structure of N3 docked to 3CLpro and (c) the binding mode of the complex of N3 with 3CLpro in the  lowest energy structure obtained from MD simulations 

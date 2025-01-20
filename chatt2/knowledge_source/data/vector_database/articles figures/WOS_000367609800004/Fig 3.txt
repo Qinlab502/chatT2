@@ -1,0 +1,1 @@
+Fig. 4   Molecular dynamics  trajectories of native (black) and  S83F (red) GyrA throughout the  simulation time. a Energy plot b  RMSD analysis. c RMSF analy- sis. d Intramolecular hydrogen  bonds in native protein. e  Intramolecular hydrogen bonds  in S83F protein 

@@ -1,0 +1,1 @@
+Figure 9. Energy consumption for the proposed technique and for the Benchmark. 

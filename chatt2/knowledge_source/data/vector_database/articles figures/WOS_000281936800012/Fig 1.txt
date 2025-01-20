@@ -1,0 +1,1 @@
+Fig. 1. BRET assay methodology. (a) Schematic representing ligand-dependent dimerization and resonance energy transfer between RLuc and YFP fusions via BRET. (b) Schematic representing the BRET assay 96-well format protocol. 
