@@ -26,11 +26,11 @@ for i in ChatT2().discussion(
 
 | Parameter       | Type     | Description                                    |
 |-----------------|----------|------------------------------------------------|
-| `initial_question`| `string` | question from user.                        |
-| `max_iterations`| `int` | maximum counts of iteration when cot_mode != disable|
-| `stop_criterion`| `Literal["auto", "manual", "convergence"]` | How to stop the iteration when cot_mode != disable |
-| `evaluator_exist` | `boolean` | Whether evaluator works |
-| `cot_mode`|`Literal["disable", "fixed", "updated", "auto"]`| Whether to print detailed logs (default: `false`). |
+| `initial_question`| `string` |question from user.                       |
+| `max_iterations`| `int` |maximum counts of iteration when cot_mode != disable|
+| `stop_criterion`| `Literal["auto", "manual", "convergence"]` |how to stop the iteration when cot_mode != disable |
+| `evaluator_exist` | `boolean` |whether evaluator works |
+| `cot_mode`|`Literal["disable", "fixed", "updated", "auto"]`|whether to print detailed logs (default: `false`). |
 
 
 
