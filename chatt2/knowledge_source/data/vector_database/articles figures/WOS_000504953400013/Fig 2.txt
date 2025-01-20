@@ -1,0 +1,1 @@
+Figure 2. Selected QM regions in QM/MM calculations for SnoK (left) and SnoN (right). 

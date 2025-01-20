@@ -1,0 +1,1 @@
+Figure 1. An illustrative miniature Wireless Sensor Network (WSN) with the resulting transmitted data matrix M. 

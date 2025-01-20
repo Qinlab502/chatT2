@@ -1,0 +1,1 @@
+Fig. 6. Experimental (dotted lines) and calculated (solid lines) ECD spectra of (3R, 6aR, 7R, 12R, 12aS)-3. Calculations level: B3LYP/def2-TZVP; see text and Supporting Information for details. Calculated spectra plotted as sum of Gaussians with 0.25 eV exponential band-width and scaled for better comparison. 

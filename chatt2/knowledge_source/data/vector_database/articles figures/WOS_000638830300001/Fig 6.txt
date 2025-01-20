@@ -1,0 +1,1 @@
+Fig. 7   (a) Saquayamycin K4 docked to 3CLpro, (b) 2D structure of saquayamycin K4 docked to 3CLpro and (c) the binding mode of the com- plex of saquayamycin K4 with 3CLpro in the lowest energy structure obtained from MD simulations 

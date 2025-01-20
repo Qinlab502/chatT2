@@ -1,0 +1,1 @@
+Fig. 1. Overall structure of AlpK in complex with FAD. A) The overall structure of AlpK comprises of FAD-binding domain (yellow), the middle domain (cyan), and the C- terminal domain (magenta). B) The 2Fo-Fc electron density map at the FAD binding site, contoured at 1.0s. C) Structure alignment of AlpK with PgaE (grey, PDB: 2QA1) and BexE (pink, PDB:4X4J). 

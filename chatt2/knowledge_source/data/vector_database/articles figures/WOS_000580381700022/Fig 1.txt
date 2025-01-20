@@ -1,0 +1,1 @@
+Figure 1. QM/MM-optimized geometries (left) and their valence electron conﬁgurations (right) of the reactant at diﬀerent spin states. All distances are given in angstroms. Relative energies (kcal/mol) were calculated at the B3LYP/BS2 level combined with DFT-D3 corrections. 

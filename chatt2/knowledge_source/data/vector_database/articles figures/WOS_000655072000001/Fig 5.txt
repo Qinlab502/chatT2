@@ -1,0 +1,1 @@
+Figure 5. SSN generated using OAC amino acid sequence as a template with 40% sequence identity using EFI-EST webtool [46]. Green nodes represent sequences from plant species, yellow from bacterial species and dark purple from other Eukaryota species. OAC reference sequence is colored red. Uncharacterized sequence from M. polymorpha is colored magenta. 

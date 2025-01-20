@@ -1,0 +1,1 @@
+Figure 3.  I3C (]HI selective population transfer results on the carbonyl signals of  1.  (A) Normal proton noise decoupled spectrum.  (B) Gated decoupled  NOE spectrum.  (C-F)  Spectra obtained  by  irradiation at the respective  ’H NMR frequencies.  

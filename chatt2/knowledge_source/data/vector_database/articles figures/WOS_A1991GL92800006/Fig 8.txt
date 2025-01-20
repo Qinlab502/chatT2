@@ -1,0 +1,1 @@
+Figure 7 shows the van der Waals view of the entire model. The central CG base pair  together with a common portion of the drug of the present model has a root mean  squares deviation of0.948 A from the nogalamycin-d(CGTACG) crystal structure.  

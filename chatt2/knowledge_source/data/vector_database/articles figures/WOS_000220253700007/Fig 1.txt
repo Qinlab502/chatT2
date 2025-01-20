@@ -1,0 +1,1 @@
+Fig. 2 Proposed biosynthetic pathway for enterocin and the benzoyl-CoA starter unit. EncP: phenylalanine ammonia-lyase, EncH: cinnamate-CoA ligase, EncI: cinnamoyl-CoA hydratase, EncJ: 3-keto-3-phenylpropionyl-CoA thiolase, EncABCD: minimal PKS, EncL: aromatic acyl transferase, EncM: oxygenase, EncK: methyl transferase, EncQ: ferredoxin, EncR: cytochrome P-450 hydroxylase. 

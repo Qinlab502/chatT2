@@ -1,0 +1,1 @@
+Figure 7. SSN showing putative NphB orthologs belonging to IPR036239 with at least 40% sequence identity to each other. Red: NphB (Q4R2T2) sequence; yellow for bacterial species, dark purple for other Eukaryota species, light blue for uncharacterized sequences. 

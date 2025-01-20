@@ -1,0 +1,1 @@
+Figure 2. Superimposed structures of OLS (cyan, PDB 6GW3 [23]), stilbene synthase (yellow, PDB 1U0U [28]), and chalcone synthase (purple, PDB 1CGK [29]). Shown ligands CoA and naringenin are co-crystallized with OLS and chalcone synthase, respectively. 

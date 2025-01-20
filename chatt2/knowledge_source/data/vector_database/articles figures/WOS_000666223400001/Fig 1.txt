@@ -1,0 +1,1 @@
+Figure 1. (A) Monomeric structure of SARS CoV-2 MPro (PDB: 6LU7) showing its three main domains (I, II, and III; blue, green, and orange, respectively). (B) MPro active site showing the catalytic dyad (HIS41–CYS145). (C) The dimeric active form of SARS CoV-2 MPro. 

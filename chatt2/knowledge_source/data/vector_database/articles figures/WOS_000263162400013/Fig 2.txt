@@ -1,0 +1,1 @@
+Figure 2. Application of the Redirect PCR targeting system in CosG9B3 for the inactivation of gilU. FRT: FLP (flippase) recognition target; CHL: chloram- phenicol resistance gene; primer 1: gilU_FRT_rev; primer 2: gilU_FRT_forw. 

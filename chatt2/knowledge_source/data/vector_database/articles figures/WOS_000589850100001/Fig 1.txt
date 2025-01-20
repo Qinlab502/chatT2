@@ -1,0 +1,1 @@
+Figure 2. Validation of the docking algorithm of Mpro (6W63) and the co-crystalized ligand (X77) and the Ephamacophore hypothesis. A) The receptor; B) pose of the redocked co-crystalized ligand; C) amino acid residues of the binding cavity D) 2D of ligand interaction; E) The pharmacophore model; F) Co-crystalized ligand modeled pharmacophore. 

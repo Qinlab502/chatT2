@@ -1,0 +1,1 @@
+Figure 4. Diagnostic ROESY and HMBC correlations in the NMR spectra of (−)-lomaiviticin C supporting structure 3b. (a) ROESY correlations between (H4, H2), (H4′, H2′), (H4, H2′), and (H4′, H2). (b) ROESY correlation between (H4, H5′). (c) HMBC correlations between (H4, C2′), (H4, C2), (H4′, C2′), and (H4′, C2). (d) HMBC correlations between (H12, C1) and (H12′, C1′). 

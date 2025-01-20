@@ -1,0 +1,1 @@
+Fig. 7 Neighbor-joining phylogenetic tree [29] based on almost-complete 16S rRNA gene sequences showing the position of strain AKA32 in the genus Nonomuraea. Numbers at the nodes indicate the levels of bootstrap support are shown. GenBank accession numbers are given in parentheses. Bar, 0.005 substitutions per site 

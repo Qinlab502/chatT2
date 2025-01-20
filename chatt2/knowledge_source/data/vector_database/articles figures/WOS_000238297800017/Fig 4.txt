@@ -1,0 +1,1 @@
+Figure 5. Comparison of the structures of SnoaL and SnoaL2. Superposition of the subunit of the putative hydroxylase SnoaL2 (chain A, cyan, His tag in dark blue) with the subunit of the polyketide cyclase SnoaL (chain A, magenta). The aglycone ligand bound to SnoaL is shown as a stick model. Side-chains of putative catalytic residues in SnoaL2 are shown in stick representation. 

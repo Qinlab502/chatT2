@@ -1,0 +1,1 @@
+Figure 4. A1901 was identiﬁed from the PCA of node ‘fj’ shown in Figure S2. (a) The dendrogram of the node ‘fj’ contains eight strains in total. (b) PCA scores and loadings plots of the node containing A1901 with red squares highlighting the strain and its corresponding metabolites respectively are also shown. (c) Structures of the new lomaiviticin congeners. 

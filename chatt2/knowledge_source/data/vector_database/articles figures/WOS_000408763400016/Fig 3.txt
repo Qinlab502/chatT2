@@ -1,0 +1,1 @@
+Figure 3. Comparison of granaticin biosynthetic gene clusters from Streptomyces sp. PTY087I2 and S. violaceoruber TÜ22. The granaticin biosynthetic gene cluster from Streptomyces sp. PTY087I2 was compared to that from S. violaceoruber TÜ22 and showed 83% similarity. Figure adapted from antiSMASH output [28]. 

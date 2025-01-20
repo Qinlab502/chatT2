@@ -1,0 +1,1 @@
+Figure 1. Eﬃcacy assay of PKS with diﬀerent acyl carrier proteins. (A) Enzymes GilP, MtmQY, RavC with acetyl-CoA, and malonyl-CoA (no PKS control reaction); (B) enzymes GilABP, MtmQY, RavC with acetyl-CoA, and malonyl-CoA; (C) enzymes GilABP, MtmQYS with acetyl-CoA, and malonyl-CoA; (D) 2 and 4 standards prepared from S. albus expressing pEM4KSEHX-Hyg.13 

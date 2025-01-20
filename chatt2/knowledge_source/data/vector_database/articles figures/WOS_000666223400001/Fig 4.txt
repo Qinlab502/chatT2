@@ -1,0 +1,1 @@
+Figure 4. Binding modes of (A) α-rubromycin, (B) ScafA, and (C) cromoglicic acid inside the MPro active site. (D) RMSDs of their docking pose over 200 ns of MDS. 

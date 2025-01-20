@@ -1,0 +1,1 @@
+Figure 3. Organization of the aln Biosynthetic Gene Cluster PKS genes responsible for polyketide carbon skeleton synthesis are marked in black; genes responsible for post-PKS tailoring reactions are white; genes of un- known function are dark gray; and genes involved in regulation/resistance are light gray. 

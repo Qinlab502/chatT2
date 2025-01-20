@@ -1,0 +1,22 @@
+The structured database concerning type-II polyketide natural product compounds.
+The database comprises four fundamental tables: articles, products, bgcs, gene, and two association table: describe, synthesis.
+​        
+The articles table is utilized to store information on type-II polyketide articles, including colluid, titles, doi, abstract, publication_year attributes. The 'publication_year' is defined as 'DATE' in the database schema.
+The products table is used to store the biochemical properties of type-II polyketide natural products, including products_name, molecular_weight, number_of_building_blocks, DeepT2 attributes. The 'DeepT2' column provides the result from DeepT2, which is a classification system of type 2 polyketides"
+The bgcs table is employed to store information on type-II polyketide gene clusters, including mibig_number, core_biosynthetic_genes, additional_biosynthetic_genes, regulatory_genes, transport_related_genes, organism, mibig_url attributes.
+The describe table is utilized to store the many-to-many relationship between articles and products, including products_name and colluid columns.
+synthesis table is utilized to store the many-to-many relationship between bgcs and products, including products_name， mibig_number and biosynthetic_path columns.  The 'biosynthetic_path' is a URL storing schematic diagrams of the synthesis pathways of type-II polyketide natural product compounds.
+gene table is used to store 化合物合成的相关基因信息，包括gene_name，gene_protein_product，gene_protein_id，gene_kind，gene_functions，protein_product_sequence，gene_location_start，gene_location_end，gene_location_strand，gene_nucleotide_sequence，mibig_number columns.
+
+In the articles table, the colluid serves as the primary key, which is a unique index of articles.
+In the products table, the products_name is the primary key, and the mibig_number is a foreign key referencing the mibig_number column in the bgcs table.
+In the bgcs table, the mibig_number serves as the primary key.
+In the describe table,  colluid is a foreign key referencing the colluid column in the articles table, and products_name is a foreign key referencing the products_name column in the products table.
+In the synthesis table， mibig_number is a foreign key referencing the mibig_number column in the bgcs table, and products_name is a foreign key referencing the products_name column in the products table.
+In the gene table, mibig_number is a foreign key referencing the mibig_number column in the bgcs table
+
+The articles table and the products table exhibit a many-to-many relationship, where an article can describe multiple compounds, and a compound can be described by different articles. The describe table stores this many-to-many relationship.
+The products table and the bgcs table demonstrate a many-to-many relationship, where a compound may originate from multiple Biosynthetic gene clusters (BGCs), and a BGC can synthesize multiple compounds.
+The  bgcs  table and the gene table demonstrate a one-to-many relationship,  where there are many genes in a Biosynthetic gene cluster (BGC) 
+​         
+所使用的数据库为sqlite, 并且统一在where子句字符串匹配中，使用'COLLATE NOCASE'关键字使字符串比较忽略大小写差异。

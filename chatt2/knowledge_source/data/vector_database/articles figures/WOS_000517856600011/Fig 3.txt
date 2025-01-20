@@ -1,0 +1,1 @@
+Figure 6. Average SR values of (aS,12R,12′R)-2 computed at various wavelengths at four levels of theory (red: B3LYP/TZVP PCM/ acetone, blue: BH&HLYP/TZVP PCM/acetone, orange: CAM- B3LYP/TZVP PCM/acetone, purple: PBE0/TZVP PCM/acetone) with the TZVP basis set and PCM solvent model for acetone. Level of optimization: CAM-B3LYP/TZVP PCM/acetone. 

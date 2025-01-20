@@ -1,0 +1,1 @@
+Figure 3. Generation and analysis of mutant O3 K1. A) Scheme representing gene disruption in the ovmK gene. Abbreviations: aac(3)IV, apramycin resistance gene; PermE*, ermE* promoter. B) Southern hybridization on BamHI-digested chromosomal DNA with use of a 1.3 kb NcoI fragment containing ovmK as probe. 
