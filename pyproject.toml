@@ -14,5 +14,11 @@ dependencies = ["fuzzywuzzy==0.18.0",
                 "SQLAlchemy==1.4.41",
                 ]
 
-[tool.setuptools]
-packages = ["chatt2"] 
+[tool.pdm.scripts]
+dev = "uvicorn main:app --reload"
+fmt = { composite = ["ruff format", "ruff check --fix-only"] }
+install-mmseqs = "conda install -c conda-forge -c bioconda mmseqs2 -y"
+install-mafft = "conda install conda-forge::mafft -y"
+install-conda-deps = { composite = ["install-mmseqs", "install-mafft" ] }
+
+
