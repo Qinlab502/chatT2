@@ -30,7 +30,7 @@ for i in ChatT2().discussion(
 | `max_iterations`| `int` |maximum counts of iteration when cot_mode != disable|
 | `stop_criterion`| `Literal["auto", "manual", "convergence"]` |how to stop the iteration when cot_mode != disable |
 | `evaluator_exist` | `boolean` |whether evaluator works |
-| `cot_mode`|`Literal["disable", "fixed", "updated", "auto"]`|the way of CoT to be changed|
+| `cot_mode`|`Literal["disable", "fixed", "updated", "auto"]`|the way of how CoT to be changed|
 
 
 
