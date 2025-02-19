@@ -4,7 +4,7 @@ version = "0.0.1"
 authors = [{ name = "Wang Yihan", email = "202011059157@mail.bnu.edu.cn" }]  
 readme = "README.md" 
 license = { text = "MIT" } 
-requires-python = ">=3.8" 
+requires-python = "==3.8" 
 dependencies = ["fuzzywuzzy==0.18.0",
                 "numpy==1.24.3",
                 "openai==1.63.0",
@@ -19,6 +19,12 @@ dev = "uvicorn main:app --reload"
 fmt = { composite = ["ruff format", "ruff check --fix-only"] }
 install-mmseqs = "conda install -c conda-forge -c bioconda mmseqs2 -y"
 install-mafft = "conda install conda-forge::mafft -y"
-install-conda-deps = { composite = ["install-mmseqs", "install-mafft" ] }
+install-conda-deps = { composite = ["install-mmseqs", "install-mafft" ]}
 
 
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["chatt2"]
