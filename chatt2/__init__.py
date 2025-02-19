@@ -42,50 +42,12 @@ class ChatT2:
         evaluator_exist=True,
         cot_mode=Literal["disable", "fixed", "updated", "auto"],
     ):
-        """这里是一个函数注释的示例Return the agent who sent the last message to group chat manager.
-
-        In a group chat, an agent will always send a message to the group chat manager, and the group chat manager will
-        send the message to all other agents in the group chat. So, when an agent receives a message, it will always be
-        from the group chat manager. With this property, the agent receiving the message can know who actually sent the
-        message.
-
-        Example:
-        ```python
-        from autogen import ConversableAgent
-        from autogen import GroupChat, GroupChatManager
-
-
-        def print_messages(recipient, messages, sender, config):
-            # Print the message immediately
-            print(
-                f"Sender: {sender.name} | Recipient: {recipient.name} | Message: {messages[-1].get('content')}"
-            )
-            print(f"Real Sender: {sender.last_speaker.name}")
-            assert sender.last_speaker.name in messages[-1].get("content")
-            return False, None  # Required to ensure the agent communication flow continues
-
-
-        agent_a = ConversableAgent("agent A", default_auto_reply="I'm agent A.")
-        agent_b = ConversableAgent("agent B", default_auto_reply="I'm agent B.")
-        agent_c = ConversableAgent("agent C", default_auto_reply="I'm agent C.")
-        for agent in [agent_a, agent_b, agent_c]:
-            agent.register_reply(
-                [ConversableAgent, None], reply_func=print_messages, config=None
-            )
-        group_chat = GroupChat(
-            [agent_a, agent_b, agent_c],
-            messages=[],
-            max_round=6,
-            speaker_selection_method="random",
-            allow_repeat_speaker=True,
-        )
-        chat_manager = GroupChatManager(group_chat)
-        groupchat_result = agent_a.initiate_chat(
-            chat_manager, message="Hi, there, I'm agent A."
-        )
-        ```
         """
-        mentor, evaluator, executor = self.initial_agents(initial_question, evaluator_exist, cot_mode)
+        Return the agents' responds iteratively.
+        """
+        mentor, evaluator, executor = self.initial_agents(
+            initial_question, evaluator_exist, cot_mode
+        )
 
         if cot_mode == "disable":
             max_iterations = 1
@@ -102,11 +64,13 @@ class ChatT2:
                         mentor=mentor,
                         stop_criterion=stop_criterion,
                     ):
-                        yield ("mentor: ", mentor.summary())
+                        yield {"mentor_summary", mentor.summary()}
                         break
 
-                    question = mentor.generate_next_question(error_content=error_content)
-                    print(f"{i} turn question: ", question)
+                    question = mentor.generate_next_question(
+                        error_content=error_content
+                    )
+                    yield {"mentor": question}
 
                     try:
                         executor_response = executor.executing(question)
@@ -117,10 +81,12 @@ class ChatT2:
                         raise
 
                     # print(executor_response)
-                    yield ("executor: ", executor_response)
+                    yield {"executor": executor_response}
 
                 except KeyboardInterrupt:
-                    demand = input("有什么额外的需求吗?\n")  # 这里是一个延迟处理的接口，是当执行完一次循环时才获得用户输入，考虑如何实现
+                    demand = input(
+                        "有什么额外的需求吗?\n"
+                    )  # 这里是一个延迟处理的接口，是当执行完一次循环时才获得用户输入，考虑如何实现
                     # 这里可能要插入mentor处理一下用户是要发起另一个问题的discussion还是在当前discussion插入一些自己的要求
                     mentor.add_user_demand("有什么额外的需求吗?\n", demand)
                     continue
