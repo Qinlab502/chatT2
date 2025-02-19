@@ -1,0 +1,33 @@
+{
+    "request": {
+        "DATABASE_CONFIG": {
+            "OPENAI_API_KEY": "",
+            "OPENAI_MODEL": "",
+            "QDRANT_API_KEY": "",
+            "QDRANT_URL": "",
+            "CLOUDINARY_NAME": "",
+            "CLOUDINARY_KEY": "",
+            "CLOUDINARY_SECRET": ""
+        },
+        "CHATT2_CONFIG": {
+            "RECALL_RATE": "0.5",
+            "MIN_SCORE_THRESHOLD": "0.5",
+            "TOP_N_CHUNK": "50",
+            "TOP_N_DOCUMENT": "10",
+            "MAX_ITERATION": "20",
+            "STOP_CRITERTION": "auto",
+            "EVALUATOR_EXIST": "false",
+            "COT_MODE": "auto"
+        }
+    },
+    "response": {
+        "EXECUTOR_CHAT": "",
+        "MENTOR_CHAT": "",
+        "EVALUATOR_CHAT": "",
+        "MENTOR_SUMMARY": {
+            "TEXT_RESPOND": "",
+            "REFERENCE": ""
+        },
+        "EXECUTOR_ASK_HELP": ""
+    }
+}
