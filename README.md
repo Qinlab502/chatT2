@@ -10,7 +10,8 @@
 ## Installation
 ChatT2 requires Python 3.8 or later.
 ```bash
-pip install git+https://github.com/Qinlab502/chatT2@master#subdirectory=chatt2
+>>> git clone https://github.com/Qinlab502/chatT2.git
+>>> pip install .
 ```
 
 ## Quickstart
