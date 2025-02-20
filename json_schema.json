@@ -20,15 +20,15 @@
             "COT_MODE": "auto"
         },
         "QUESTION": ""
-    }
-},
-"response": {
-    "EXECUTOR_CHAT": "",
-    "MENTOR_CHAT": "",
-    "EVALUATOR_CHAT": "",
-    "MENTOR_SUMMARY": {
-        "TEXT_RESPOND": "",
-        "REFERENCE": ""
     },
-    "EXECUTOR_ASK_HELP": ""
+    "response": {
+        "EXECUTOR_CHAT": "",
+        "MENTOR_CHAT": "",
+        "EVALUATOR_CHAT": "",
+        "MENTOR_SUMMARY": {
+            "TEXT_RESPOND": "",
+            "REFERENCE": ""
+        },
+        "EXECUTOR_ASK_HELP": ""
+    }
 }
