@@ -3,7 +3,7 @@ from fuzzywuzzy import fuzz
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
 
-from ..data import structure_database_file
+from ..structure_database import structure_database_file
 from ...utils import dict_to_markdown_table
 from .sql import fuzz_sql_for_database, modify_sql
 from sqlalchemy.exc import OperationalError
@@ -98,10 +98,11 @@ def retrieve_structured_data(sql, recall_rate=0.5) -> StrcturedDatabaseResult:
         "biosynthetic_path": "'biosynthetic_path' is a URL storing schematic diagrams of the synthesis pathways of type-II polyketide natural product compounds. You can output the biosynthetic_path of that row in Markdown image format '![products_name](biosynthetic_path)' to represent the synthesis pathway of a compound in a row of the view, whicn is quiet important!",
         "mibig_url": "'mibig_url' is the link introducing the biosynthetic gene cluster corresponding to the 'mibig_number'.You can output the url in html format '<a href=mibig_url>mibig_number</a>' to make the link clickable.",
         "citation": "'citation' provides references of a article in a specific format.",
-        "DeepT2": "'DeepT2' column provides the result from DeepT2, which is a classification system of type 2 polyketides",
+        "DeepT2": "'DeepT2' column provides the result from DeepT2, which is a classification system of type II polyketides",
     }
     database_path = structure_database_file
     record_num = int(max_record_num * recall_rate)
+    # print(sql)
     try:
         view = search_structured_database(database_path, sql, record_num)
         if view.shape[0] == 0:
@@ -110,16 +111,17 @@ def retrieve_structured_data(sql, recall_rate=0.5) -> StrcturedDatabaseResult:
             view = fuzz_search_structured_database(database_path, fuzz_sql, record_num)
             print("fuzz_sql finished")
 
-    except OperationalError as e:
-        sql = modify_sql(sql, str(e.orig))
-        print("updated_sql:" + sql)
-        view = search_structured_database(database_path, sql, record_num)
-        if view.shape[0] == 0:
-            fuzz_sql = fuzz_sql_for_database(sql)
-            # print(fuzz_sql)
-            view = fuzz_search_structured_database(database_path, fuzz_sql, record_num)
-            print("fuzz_sql finished")
+    except Exception as e:
+        # sql = modify_sql(sql, str(e.orig))
+        # print("updated_sql:" + sql)
+        # view = search_structured_database(database_path, sql, record_num)
+        # if view.shape[0] == 0:
+        #     fuzz_sql = fuzz_sql_for_database(sql)
+        #     # print(fuzz_sql)
+        #     view = fuzz_search_structured_database(database_path, fuzz_sql, record_num)
+        #     print("fuzz_sql finished")
         # 这里暂时就更新一次
+        view = pd.DataFrame()
 
     view_text_markdown = dict_to_markdown_table(view)
 
@@ -127,15 +129,22 @@ def retrieve_structured_data(sql, recall_rate=0.5) -> StrcturedDatabaseResult:
     extra_column_description_optional = ""
     for col in view.columns:
         if col in column_data_description_for_llm:
-            extra_column_description_optional += column_data_description_for_llm[col] + "\n"
+            extra_column_description_optional += (
+                column_data_description_for_llm[col] + "\n"
+            )
     column_data_description = (
         "The table is a view obtained through SQL queries from a database concerning type-II polyketide natural product compounds. "
         "It has " + str(len(view.columns)) + " columns: " + columns_text + "\n"
-        "Each column name expresses the meaning of the corresponding column data. Additionally:" + extra_column_description_optional
+        "Each column name expresses the meaning of the corresponding column data. Additionally:"
+        + extra_column_description_optional
     )
 
     structured_reference = (
-        "<column_data_description>" + column_data_description + "</column_data_description><table>" + view_text_markdown + "</table>"
+        "<column_data_description>"
+        + column_data_description
+        + "</column_data_description><table>"
+        + view_text_markdown
+        + "</table>"
     )
 
     return StrcturedDatabaseResult(

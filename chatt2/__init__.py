@@ -1,7 +1,31 @@
+import json
+import os
+from pathlib import Path
+
+
+root = Path(__file__) / ".."
+cwd = Path.cwd()
+
+cache_dir = cwd / "cache"
+cache_dir.mkdir(exist_ok=True)  # cache dir is used to store the process of the chatt2
+os.environ["cache_dir"] = str(cache_dir)
+
+# config_path = (root / "../config.json").resolve().relative_to(cwd).as_posix()
+
+config_path = os.getenv("CONFIG_PATH")
+
+with open(config_path, "r") as f:
+    config = json.load(f)
+
+for key, value in config.items():
+    os.environ[key] = str(
+        value
+    )  # get the value fiedld in the process: os.getenv("OPENAI_API_KEY")
+
 import traceback
 from typing import Literal
-from time import sleep
-
+import time
+from .utils import write_json
 from .agents import Evaluator, Executor, Mentor, ExecutorError
 
 
@@ -15,7 +39,7 @@ class ChatT2:
         elif stop_criterion == "manual":
             user_input = input("wheather to stop?")
             return user_input == "yes"
-        elif stop_criterion == "convergence":  # 先不管他
+        elif stop_criterion == "convergence":  # 这里应该加一个当最后一次迭代时行进总结
             return False
 
     def initial_agents(self, initial_question, evaluator_exist, cot_mode):
@@ -34,26 +58,27 @@ class ChatT2:
 
         return mentor, evaluator, executor
 
-    def discussion(
-        self,
-        initial_question,
-        max_iterations=20,
-        stop_criterion=Literal["auto", "manual", "convergence"],
-        evaluator_exist=True,
-        cot_mode=Literal["disable", "fixed", "updated", "auto"],
-    ):
+    def discussion(self, initial_question):
         """
         Return the agents' responds iteratively.
         """
+
+        stop_criterion = os.getenv("STOP_CRITERION")
+        max_iterations = int(os.getenv("MAX_ITERATION"))
+        evaluator_exist = bool(os.getenv("EVALUATOR_EXIST") == "true")
+        cot_mode = os.getenv("COT_MODE")
+
         mentor, evaluator, executor = self.initial_agents(
             initial_question, evaluator_exist, cot_mode
         )
-
+        print(mentor.cot)
         if cot_mode == "disable":
-            max_iterations = 1
+            max_iterations = int(os.getenv("MAX_ITERATION"))
 
         initial_response_from_mentor = mentor.daily_chat()
         error_content = None
+
+        yield "user query: " + initial_question
 
         if initial_response_from_mentor:
             yield initial_response_from_mentor
@@ -64,13 +89,29 @@ class ChatT2:
                         mentor=mentor,
                         stop_criterion=stop_criterion,
                     ):
-                        yield {"mentor_summary", mentor.summary()}
+                        summary_answer = mentor.summary()
+                        yield ("mentor: ", summary_answer)
+                        if bool(os.getenv("cache")):
+                            cache_schema = {
+                                "user_question": "",
+                                "thought": {},
+                                "summary_answer": "",
+                            }
+                            cache_schema["user_question"] = initial_question
+                            cache_schema["thought"] = mentor.global_conversation
+                            cache_schema["summary_answer"] = summary_answer
+                            write_json(
+                                cache_schema,
+                                os.getenv("cache_dir")
+                                + "/"
+                                + time.strftime("%Y%m%d_%H%M%S"),
+                            )
                         break
 
                     question = mentor.generate_next_question(
                         error_content=error_content
                     )
-                    yield {"mentor": question}
+                    yield "mentor question: " + question
 
                     try:
                         executor_response = executor.executing(question)
@@ -80,17 +121,12 @@ class ChatT2:
                     except Exception as e:
                         raise
 
-                    # print(executor_response)
-                    yield {"executor": executor_response}
+                    yield "executor response: " + executor_response
 
                 except KeyboardInterrupt:
-                    demand = input(
-                        "有什么额外的需求吗?\n"
-                    )  # 这里是一个延迟处理的接口，是当执行完一次循环时才获得用户输入，考虑如何实现
-                    # 这里可能要插入mentor处理一下用户是要发起另一个问题的discussion还是在当前discussion插入一些自己的要求
-                    mentor.add_user_demand("有什么额外的需求吗?\n", demand)
+                    demand = input("Do you have extra demand?\n")
+                    mentor.add_user_demand("Do you have extra demand?\n", demand)
                     continue
 
-                except Exception as e:  # 这里用于处理意料之外的异常
+                except Exception as e:
                     raise
-                    # evaluator.report(error=e)

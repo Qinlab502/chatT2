@@ -10,7 +10,9 @@ from .base_agent import BaseAgent
 
 
 class Mentor(BaseAgent):
-    def __init__(self, initial_question, cot_mode=Literal["disable", "fixed", "updated", "auto"]):
+    def __init__(
+        self, initial_question, cot_mode=Literal["disable", "fixed", "updated", "auto"]
+    ):
         self.name = "mentor"
         self.initial_question = initial_question
         self.messages_to_executor = []  # to form the summary
@@ -19,7 +21,7 @@ class Mentor(BaseAgent):
         self.new_question = initial_question
         self.cot_mode = cot_mode
         if self.cot_mode != "disable":
-            self.cot = self.create_cot()  # 这个用于
+            self.cot = self.create_cot()
 
     def add_message_to_executor(self, role, content):
         self.messages_to_executor.append({"role": role, "content": content})
@@ -47,10 +49,7 @@ class Mentor(BaseAgent):
         dialog = {}
         for index, i in enumerate(messages):
             if i["role"] == "user":
-                if index == 0:
-                    dialog[f"initial question #{index // 2}"] = i["content"]
-                else:
-                    dialog[f"follow-up question #{index // 2}"] = i["content"]
+                dialog[f"follow-up question #{index // 2}"] = i["content"]
             if i["role"] == "assistant":
                 dialog[f"response #{index // 2}"] = i["content"]
         return json.dumps(dialog)
@@ -68,13 +67,14 @@ class Mentor(BaseAgent):
         summary_messages = [
             {
                 "role": "system",
-                "content": "Please merge the dialogs to create an scientific search report related to the user's initial question. 每个问题的response中的内容以<sup>标签加数字结尾，意味者这句话参考了'References'中文献，因此你在合并信息时，应该保留相同的文献引用格式. You should incorporate all information from each dialog in the answer",
+                "content": "Please merge the dialogs to create an scientific search report related to the user's initial question. You should incorporate all information from each dialog in the answer and 保留相同的文献引用格式.",
             },
             {
                 "role": "user",
                 "content": f"initial_question: {self.initial_question}, dialogs:{dialog}",
             },
         ]
+        print(dialog)
         summary = get_text_completion(summary_messages)
         self.speak(summary)
         return summary
@@ -86,31 +86,27 @@ class Mentor(BaseAgent):
             create_cot_messages = [
                 {
                     "role": "user",
-                    "content": f'对于用户的问题 "{self.initial_question}"已经产生了一些讨论 "{dialog}". 你可以参考这个讨论写一段回答该问题的解决步骤并且 satisfy user demand:{self.user_demand}.',
+                    "content": f'For the users question "{self.initial_question}", some discussions have already taken place: "{dialog}". You can refer to this discussion to write a response outlining the solution steps and ensure it satisfies the user demand: {self.user_demand}.',
                 },
             ]
         else:
             create_cot_messages = [
                 {
                     "role": "user",
-                    "content": f'对于用户的问题 "{self.initial_question}". 你需要写一段回答该问题的解决步骤',
+                    "content": f'For the users question "{self.initial_question}", you need to write a response outlining the solution steps.',
                 },
             ]
-        # print(create_cot_messages)
+
         response = get_text_completion(create_cot_messages)
-        # print(response)
         cot_prompt = response
-        # print(cot_prompt)
+
         self.cot = cot_prompt
 
     def generate_next_question(self, error_content=None):
-        # latest_response_from_executor = self.messages_to_executor[-1]["content"]
-
         messages = self.messages_to_executor
         dialog = self.messages_to_dialog(messages)
         for i in range(100):
             if error_content:
-                # 处理当由evaluator反馈的错误信息时，需要重新提问
                 generation_new_question_messages_with_error = [
                     {
                         "role": "user",
@@ -120,7 +116,10 @@ class Mentor(BaseAgent):
                             or generate another question (output in JSON format:"{{"follow_question_for_agents":".."}}")',
                     },
                 ]
-                response = self.output_from_llm(generation_new_question_messages_with_error, response_format="json_object")
+                response = self.output_from_llm(
+                    generation_new_question_messages_with_error,
+                    response_format="json_object",
+                )
                 try:
                     demand_to_user = response["demand_to_user"]
                     self.speak(demand_to_user)
@@ -181,7 +180,7 @@ class Mentor(BaseAgent):
                 return self.initial_question
 
             else:
-                # 这里是fix模式, cot不需要进行修改
+                # fix mode
                 pass
 
             generation_new_question_messages = [

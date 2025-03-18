@@ -1,1 +1,0 @@
-Fig. 4   RMSD for the complexes  of 3CLpro with all the ligands  for 50 ns trajectory 

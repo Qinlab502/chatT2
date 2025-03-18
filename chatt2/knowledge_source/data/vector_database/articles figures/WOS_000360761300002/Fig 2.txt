@@ -1,1 +1,0 @@
-Figure 4. Structures of ATC and epiATC calculated with Gaussian program; parts that are inﬂuencing the different CID fragmentations are highlighted in yellow. 

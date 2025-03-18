@@ -1,1 +1,0 @@
-Figure 10. N MAEtot with and without clusters consideration. 

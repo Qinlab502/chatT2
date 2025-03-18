@@ -3,13 +3,13 @@
         "type": "function",
         "function": {
             "name": "multiple_sequence_alignment",
-            "description": "获得一组fasta格式的DNA的核酸序列或蛋白质的氨基酸序列做多序列比对，multiple_sequence_alignment通过一种或多种全局比对算法（例如ClustalW、MUSCLE或MAFFT）对输入的所有序列进行比对。全局比对算法会考虑序列间的相似性，插入缺失（gap），以及保守性区域等因素，生成一个多序列全局比对的结果，并评估比对质量，重点识别和标记高度保守的区域和重要变异点。输出多序列比对结果包括一个用于展示结果可视化图的url(可以以markdown格式输出展示 '![](url)')和一个对齐的矩阵，其中每一行代表一条氨基酸序列，每一列代表各序列在相同位置的氨基酸",
+            "description": "Obtain a set of nucleotide sequences in FASTA format (DNA) or amino acid sequences (proteins) for multiple sequence alignment. The multiple_sequence_alignment process performs alignment of all input sequences using one or more global alignment algorithms (such as ClustalW, MUSCLE, or MAFFT). Global alignment algorithms take into account sequence similarity, insertions and deletions (gaps), and conserved regions to generate a comprehensive multiple sequence alignment result. The alignment quality is evaluated, with a focus on identifying and highlighting highly conserved regions and important variation sites. The output of the multiple sequence alignment includes a URL for visualizing the alignment result, which can be displayed using Markdown format (e.g., '![](url)') and an aligned matrix, where each row represents an amino acid sequence and each column corresponds to the aligned amino acids at the same position across all sequences.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "fasta_text": {
                         "type": "string",
-                        "description": "fasta格式的，由'A','T','C','G'组成的核酸序列（dna）或氨基酸序列（protein）, 如果仅提供序列，描述行默认为‘>seq1’、‘>seq2’..."
+                        "description": "FASTA format consists of nucleotide sequences (DNA) composed of 'A', 'T', 'C', and 'G', or amino acid sequences (protein). If only the sequences are provided without description lines, the description lines will be automatically assigned as '>seq1', '>seq2', and so on by default"
                     }
                 },
                 "required": [
@@ -22,13 +22,13 @@
         "type": "function",
         "function": {
             "name": "gene_function_annotation",
-            "description": "该函数获得用户输入的一组fasta格式的DNA的核酸序列或蛋白质的氨基酸序列用于与数据库中所有二型聚酮的核酸序列或氨基酸序列进行比对，二型聚酮的信息已编写在函数代码中，仅需要获得用户输入序列。该函数可以识别和预测功能保守的区域，如基因功能域、活性位点等，帮助进行基因和蛋白质的功能注释。重点通过bitscore 和 identity 来判断输入序列与数据库中的哪条序列最相似，从而提供功能注释信息。输出表格包括以下列：输入序列，比对序列，比对长度，一致性，bitscore, 基因注释",
+            "description": "This function receives a set of user-provided DNA nucleotide sequences or protein amino acid sequences in FASTA format, which are used to perform sequence alignment against all type II polyketide nucleotide or amino acid sequences stored in the database. The type II polyketide information is already embedded in the function code, so only the user input sequences are required. The function is capable of identifying and predicting functionally conserved regions, such as gene functional domains and active sites, to assist in gene and protein function annotation. It primarily uses bitscore and identity to determine which database sequence is most similar to the input sequence, thereby providing functional annotation information. The output table includes the following columns: input sequence, matched sequence, alignment length, identity, bitscore, and gene annotation.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "fasta_text": {
                         "type": "string",
-                        "description": "fasta格式的，由'A','T','C','G'组成的核酸序列（dna）或氨基酸序列（protein）,  例如如 '>seq1\\nMTLATPAAQETPER...' 如果仅提供序列，描述行默认为'>seq1'、'>seq2'...在描述行和序列行之间的换行符必不可少"
+                        "description": "FASTA format consists of nucleotide sequences (DNA) composed of 'A', 'T', 'C', and 'G', or amino acid sequences (protein). For example: '>seq1\nMTLATPAAQETPER....' If only sequences are provided without description lines, default headers such as '>seq1', '>seq2', and so on will be automatically assigned by default."
                     },
                     "type": {
                         "type": "string",
@@ -36,11 +36,11 @@
                             "dna",
                             "protein"
                         ],
-                        "description": "用户输入序列的类型，dna(序列由ATCG组成) or protein(序列由20种表示氨基酸的字母组成)"
+                        "description": "User inputs the sequence type: DNA (sequences composed of A, T, C, and G) or protein (sequences composed of 20 letters representing amino acids)."
                     }
                 },
                 "required": [
-                    "sequence",
+                    "fasta_text",
                     "type"
                 ]
             }
@@ -49,27 +49,8 @@
     {
         "type": "function",
         "function": {
-            "name": "ask_for_clarification",
-            "description": "该函数输入一个你觉得需要用户进一步补充阐明的问题，然后返回这个问题的答案",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "clarification_question": {
-                        "type": "string",
-                        "description": "一个与user提问相关，但需要用户阐明的问题"
-                    }
-                },
-                "required": [
-                    "clarification_question"
-                ]
-            }
-        }
-    },
-    {
-        "type": "function",
-        "function": {
             "name": "pubchem",
-            "description": "获得一个化合物名用于在pubchem数据库中检索获得该化合物的信息",
+            "description": "Obtain a compound name to query the PubChem database and retrieve information about the compound. The returned compound information may be irrelevant, so a secondary filtering step based on the compound_name is required to ensure relevance.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -79,7 +60,26 @@
                     }
                 },
                 "required": [
-                    "independent_query"
+                    "compund_name"
+                ]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "ask_for_help",
+            "description": "Submit a request, and a human assistant can help fulfill any additional tasks that require manual intervention—such as submitting file contents, providing results from physical experiments, and other similar needs.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "need": {
+                        "type": "string",
+                        "description": "Functions that require human intervention."
+                    }
+                },
+                "required": [
+                    "need"
                 ]
             }
         }

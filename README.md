@@ -1,37 +1,60 @@
-# ![]()chatt2
-
----
-
-## Introduction
+# 
 
 
----
 
-## Installation
-ChatT2 requires Python 3.8 or later.
+<div align="center">
+<h2>ProtChat: ChatT2: An Adaptive Framework for Developing an LLM-Based Agent for Bacterial Aromatic Polyketide Research</h2>
+
+![](.\figures\workflow.png)
+
+# 
+
+# Online
+
+We have deployed ChatT2 on this [webpage](https://chatt2.site/#/chat). Any user can access ChatT2's services through a conversational interface. 
+
+
+
+# Installation
+
+We recommend users to access our ChatT2 through the online website. Although `data_example` provides sample data, we do not fully disclose our dataset. However, if you have a similar external dataset, you can use ChatT2 as a Python package by following the steps below.
+
 ```bash
 >>> git clone https://github.com/Qinlab502/chatT2.git
 >>> pip install .
 ```
 
-## Quickstart
-```python
-from chatt2 import ChatT2
-for i in ChatT2().discussion(
-    initial_question="could you describe the biosynthetic pathway formicamycin?", stop_criterion="auto", evaluator_exist=False, cot_mode="auto"
-):
-    print(i)
-```
+In the current version, you still need to upload your personal dataset to a third-party database platform and provide an API in the config file.
 
-## Main Parameters
+
+
+
+
+# User Preference
+
+All user preference settings can be configured in `config.json`. This file will be used for the initialization of ChatT2.
 
 | Parameter       | Type     | Description                                    |
 |-----------------|----------|------------------------------------------------|
-| `initial_question`| `string` |question from user.                       |
-| `max_iterations`| `int` |maximum counts of iteration when cot_mode != disable|
-| `stop_criterion`| `Literal["auto", "manual", "convergence"]` |how to stop the iteration when cot_mode != disable |
-| `evaluator_exist` | `boolean` |whether evaluator works |
-| `cot_mode`|`Literal["disable", "fixed", "updated", "auto"]`|the way of CoT to be changed|
+| `MIN_SCORE_THRESHOLD` | `float` | The minimum threshold value for the relevance of text chunks |
+| `TOP_N_CHUNK` | `int` |The number of chunks to keep in the final context |
+| `TOP_N_DOCUMENT` | `int` |The number of top relevant documents to keep in the search results |
+| `STOP_CRITERION` | `Literal["auto", "manual", "convergence"]` |Defines when the Mentor should stop outputting results |
+| `MAX_ITERATION` | `int` |The maximum number of iterative thought cycles for ChatT2|
+| `EVALUATOR_EXIST` | `boolean` |Indicates if an evaluator is inputted. If the evaluator is not provided, ChatT2 will provide less precise results. Otherwise, it will yield more accurate results. |
+| `COT_MODE` |`Literal["disable", "fixed", "updated", "auto"]`|Defines the method for CoT reasoning|
 
+# Quickstart
 
+在提交问题之前，你需要提供一个`config.json`文件来对ChatT2进行初始化。随后你可以向ChatT2询问你的问题
+
+```python
+from chatt2 import ChatT2
+# Initialize ChatT2 with the configuration file
+chatt2 = ChatT2("config.json")
+
+# Submit an initial question and iterate over the discussion response
+for response in ChatT2.discussion(initial_question="could you describe the biosynthetic pathway formicamycin?"):
+    print(response)
+```
 

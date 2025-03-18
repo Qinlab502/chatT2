@@ -10,12 +10,17 @@ import pandas as pd
 import requests
 from pymsaviz import MsaViz
 
-from ..data import (
-    dynamic_images_cache_path,
+from ..tools_repository import (
     fasta_nucleotide_text,
     fasta_protein_text,
-    structure_database_file,
+    annotation_result_file,
 )
+
+from ..images_database import dynamic_images_cache_path
+
+from ..structure_database import structure_database_file
+
+
 from .retrieve_structured_data import search_structured_database
 from ...template import function_calling_system_prompt, function_calling_template
 from ...utils import (
@@ -46,7 +51,9 @@ class FunctionMaster(BaseAgent):
         self.tools_messages.insert(0, {"role": "system", "content": self.system_prompt})
         self.tools_messages.append({"role": "user", "content": self.query})
 
-        response = self.function_calling_api(self.tools_messages, tools=self.function_list)
+        response = self.function_calling_api(
+            self.tools_messages, tools=self.function_list
+        )
         if response.finish_reason == "tool_calls":
             conversation_about_tool_call = []
             print(response.message.tool_calls)
@@ -59,43 +66,64 @@ class FunctionMaster(BaseAgent):
                     # result = self._gene_function_annotation(fasta_text, type_, self.fasta_file_name)
                     result = self._gene_function_annotation(fasta_text, type_, None)
 
-                    conversation_about_tool_call.append({
-                        "tool_call_id": tool_call.id,
-                        "role": "tool",
-                        "name": "gene_function_annotation",
-                        "content": json.dumps({"annotation_result": dict_to_markdown_table(result)}),
-                    })
+                    conversation_about_tool_call.append(
+                        {
+                            "tool_call_id": tool_call.id,
+                            "role": "tool",
+                            "name": "gene_function_annotation",
+                            "content": json.dumps(
+                                {"annotation_result": dict_to_markdown_table(result)}
+                            ),
+                        }
+                    )
                 elif tool_call.function.name == "ask_for_clarification":
-                    clarification_question = json.loads(tool_call.function.arguments)["clarification_question"]
-                    conversation_about_tool_call.append({
-                        "tool_call_id": tool_call.id,
-                        "role": "tool",
-                        "name": "ask_for_clarification",
-                        "content": self.input_from_user(clarification_question),
-                    })
+                    clarification_question = json.loads(tool_call.function.arguments)[
+                        "clarification_question"
+                    ]
+                    conversation_about_tool_call.append(
+                        {
+                            "tool_call_id": tool_call.id,
+                            "role": "tool",
+                            "name": "ask_for_clarification",
+                            "content": self.input_from_user(clarification_question),
+                        }
+                    )
                 elif tool_call.function.name == "multiple_sequence_alignment":
                     fasta_text = json.loads(tool_call.function.arguments)["fasta_text"]
                     # msa_result, msa_vis_url = self._multiple_sequence_alignment(fasta_text, self.fasta_file_name)
-                    msa_result, msa_vis_url = self._multiple_sequence_alignment(fasta_text, None)
-                    conversation_about_tool_call.append({
-                        "tool_call_id": tool_call.id,
-                        "role": "tool",
-                        "name": "multiple_sequence_alignment",
-                        "content": json.dumps({
-                            "msa_result": msa_result,
-                            "msa_result_visualization_url": msa_vis_url,
-                        }),
-                    })
+                    msa_result, msa_vis_url = self._multiple_sequence_alignment(
+                        fasta_text, None
+                    )
+                    conversation_about_tool_call.append(
+                        {
+                            "tool_call_id": tool_call.id,
+                            "role": "tool",
+                            "name": "multiple_sequence_alignment",
+                            "content": json.dumps(
+                                {
+                                    "msa_result": msa_result,
+                                    "msa_result_visualization_url": msa_vis_url,
+                                }
+                            ),
+                        }
+                    )
                 elif tool_call.function.name == "pubchem":
-                    compound_name = json.loads(tool_call.function.arguments)["compound_name"]
+                    compound_name = json.loads(tool_call.function.arguments)[
+                        "compound_name"
+                    ]
                     compound_information = self._pubchem(compound_name)
-                    conversation_about_tool_call.append({
-                        "tool_call_id": tool_call.id,
-                        "role": "tool",
-                        "name": "pubchem",
-                        "content": json.dumps({"compound_information": compound_information}),
-                    })
-
+                    conversation_about_tool_call.append(
+                        {
+                            "tool_call_id": tool_call.id,
+                            "role": "tool",
+                            "name": "pubchem",
+                            "content": json.dumps(
+                                {"compound_information": compound_information}
+                            ),
+                        }
+                    )
+                elif tool_call.type == "ask_for_help":
+                    pass
                 else:
                     assert ValueError("function name in funcation calling error")
             conversation_about_tool_call = [
@@ -104,6 +132,7 @@ class FunctionMaster(BaseAgent):
             ]
             # print(conversation_about_tool_call)
             self.tools_messages += conversation_about_tool_call
+            print(self.tools_messages)
             return self.output_from_llm(self.tools_messages)
 
         else:
@@ -111,7 +140,6 @@ class FunctionMaster(BaseAgent):
             return ""
 
     def _pubchem(self, compoundname):
-        compoundname = "Accramycin"
         query = {
             "select": "*",
             "collection": "compound",
@@ -122,14 +150,17 @@ class FunctionMaster(BaseAgent):
             "width": 1000000,
             "listids": 0,
         }
-        url = "https://pubchem.ncbi.nlm.nih.gov/sdq/sdqagent.cgi?infmt=json&outfmt=json&query=" + json.dumps(query)
+        url = (
+            "https://pubchem.ncbi.nlm.nih.gov/sdq/sdqagent.cgi?infmt=json&outfmt=json&query="
+            + json.dumps(query)
+        )
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36 Edg/123.0.0.0"
         }
         response = requests.get(url, headers=headers)
         result = json.loads(response.text)
         try:
-            return json.dumps(result["SDQOutputSet"][0]["rows"][0])
+            return json.dumps(result["SDQOutputSet"][0]["rows"])
         except IndexError:
             return "Information about the compound is missing, please check the the compoundname"
 
@@ -139,7 +170,9 @@ class FunctionMaster(BaseAgent):
     def _multiple_sequence_alignment(self, fasta_text, fasta_file_name=None):
         # 这里fasta_file是指当fasta_file存在时，fasta_text中会包含fasta_file的前2行的内容，当fasta_file存在时，直接执行fasta_file的指令，不考虑输入框和文件都包含fasta序列情况
         if not fasta_file_name:
+            # fmt: off
             with NamedTemporaryFile(mode="w+", encoding="utf-8") as fasta_file, NamedTemporaryFile(mode="w+", encoding="utf-8") as msa_file:
+            # fmt: on
                 fasta_file.write(fasta_text)
                 fasta_file.seek(0)
                 cmd = ["mafft", "--auto", fasta_file.name]  # 这个指令是打印到标准输出
@@ -160,16 +193,20 @@ class FunctionMaster(BaseAgent):
                     show_consensus=True,
                 )
                 current_timestamp = int(time.time())
-                msa_vis_url = dynamic_images_cache_path + f"{current_timestamp}_msa_vis.jpg"
+                msa_vis_url = (
+                    dynamic_images_cache_path + f"{current_timestamp}_msa_vis.jpg"
+                )
 
                 mv.savefig(msa_vis_url)
         return result.stdout, msa_vis_url
 
-    def _gene_function_annotation(self, fasta_text, type_: Literal["dna", "protein"], fasta_file_name=None):
+    def _gene_function_annotation(
+        self, fasta_text, type_: Literal["dna", "protein"], fasta_file_name=None
+    ):
         if not fasta_file_name:
-            with NamedTemporaryFile(mode="w+", encoding="utf-8", suffix=".fasta") as fasta_file, NamedTemporaryFile(
-                mode="w+", encoding="utf-8", suffix=".txt"
-            ) as annotation_result_file:
+            # fmt: off
+            with NamedTemporaryFile(mode="w+", encoding="utf-8", suffix=".fasta") as fasta_file, NamedTemporaryFile(mode="w+", encoding="utf-8", suffix=".txt") as annotation_result_file:
+            # fmt: on
                 fasta_file.write(fasta_text)
                 fasta_file.seek(0)
                 if type_ == "dna":
@@ -213,7 +250,9 @@ class FunctionMaster(BaseAgent):
         ]
         data_io = StringIO(annotation_result)
         print(annotation_result)
-        df_annotation_result = pd.read_csv(data_io, delim_whitespace=True, header=None, names=columns)
+        df_annotation_result = pd.read_csv(
+            data_io, delim_whitespace=True, header=None, names=columns
+        )
         annotation_result = df_annotation_result.loc[
             :,
             [
@@ -224,13 +263,20 @@ class FunctionMaster(BaseAgent):
                 "Bit Score",
             ],
         ]
-        annotation_result = annotation_result.sort_values(by="Sequence Identity", ascending=False).iloc[:5]
+        annotation_result = annotation_result.sort_values(
+            by="Sequence Identity", ascending=False
+        ).iloc[:5]
 
         mibig_number_list = []
         for target_sequence_id in annotation_result["Target Sequence ID"]:
             mibig_number_list.append(target_sequence_id.split("|")[0])
 
-        sql = "select * from gene where " + " ".join([f"mibig_number = {i!r} or" for i in list(set(mibig_number_list))])[:-3]
+        sql = (
+            "select * from gene where "
+            + " ".join(
+                [f"mibig_number = {i!r} or" for i in list(set(mibig_number_list))]
+            )[:-3]
+        )
 
         print(sql)
         gene_table = search_structured_database(structure_database_file, sql)
@@ -238,7 +284,10 @@ class FunctionMaster(BaseAgent):
         for target_sequence_id in annotation_result["Target Sequence ID"]:
             mibig_number, gene_name = target_sequence_id.split("|")
             annotation.append(
-                gene_table[(gene_table["mibig_number"] == mibig_number) & (gene_table["gene_name"] == gene_name)]["gene_protein_product"]
+                gene_table[
+                    (gene_table["mibig_number"] == mibig_number)
+                    & (gene_table["gene_name"] == gene_name)
+                ]["gene_protein_product"]
             )
         annotation_result["annotation"] = annotation
 

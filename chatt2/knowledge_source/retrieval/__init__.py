@@ -1,5 +1,4 @@
 from .function_repository import FunctionMaster
-from .recall_rate_adapter import recall_rate_adapter
 from .retrieve_images import retrieve_images
 from .retrieve_structured_data import (
     fuzz_search_structured_database,
@@ -7,6 +6,7 @@ from .retrieve_structured_data import (
 )
 from .retrieve_vector_database import retrieve_vector_data
 from .sql import fuzz_sql_for_database, sql_for_database
+import copy
 
 from ...utils import (
     get_embedding,
@@ -14,25 +14,40 @@ from ...utils import (
     get_text_completion_with_stream,
     streamable,
 )
+import os
 
 
-def retrieval_for_context(question, recall_rate=0.5):
-    rewrited_query = question
-    rewrited_query_embedding = get_embedding(rewrited_query)
-    sql = sql_for_database(rewrited_query)
+def retrieval_for_context(question, recall_rate=float(os.getenv("RECALL_RATE"))):
+    information_types = ["table", "text", "image", "tool"]
 
-    strctured_data = retrieve_structured_data(sql, recall_rate)
-    vector_data = retrieve_vector_data(rewrited_query_embedding, strctured_data, recall_rate)  # 在结点内直接做完reranker和上下文补充
-    images_data = retrieve_images(rewrited_query, rewrited_query_embedding)
-    tool_data = FunctionMaster(query=question).loop()
+    query_embedding = get_embedding(question)
 
-    # raise ValueError("aa")
-    context = (
-        "<knowledge>"
-        "<table_information>" + str(strctured_data) + "</table_information>"
-        "<text_information>" + str(vector_data) + "</text_information>"
-        "<images_information>" + str(images_data) + "</images_information>"
-        "<tool_output_information>" + str(tool_data) + "</tool_output_information>"
-        "</knowledge>"
-    )
+    context = ""
+    structured_data = None
+    for information_type in information_types:
+        if os.getenv(information_type.upper()) == "true":
+            if information_type == "table":
+                sql = sql_for_database(question)
+                data = retrieve_structured_data(sql, recall_rate)
+                structured_data = copy.deepcopy(data)
+                # print("table:", structured_data is None)
+            elif information_type == "text":
+                # print("text:", structured_data is None)
+                data = retrieve_vector_data(query_embedding, structured_data)
+
+            elif information_type == "image":
+                data = retrieve_images(question)
+            elif information_type == "tool":
+                data = FunctionMaster(query=question).loop()
+            context += (
+                f"<{information_type}_information>"
+                + str(data)
+                + f"</{information_type}_information>"
+            )
+
+    context = "<knowledge>" + context + "</knowledge>"
+
+    if os.getenv("cache") == "true":
+        with open(os.getenv("cache_dir") + "/del.xml", "w") as f:  # noqa: PTH123
+            f.write(context)
     return context

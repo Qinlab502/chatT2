@@ -1,51 +1,50 @@
-class ImagesResult:
-    def __init__(
-        self,
-        images_reference,
-    ):
-        self.reference_text = images_reference
+import os
+import pickle
+import numpy as np
 
-    def __str__(self) -> str:
-        return self.reference_text
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+from cloudinary.utils import cloudinary_url
+
+from nltk.tokenize import word_tokenize
+from rank_bm25 import BM25Plus
+import json
+from ..images_database import static_images_cache_path
+
+# Configuration
+cloudinary.config(
+    cloud_name=os.getenv("CLOUDINARY_NAME"),
+    api_key=os.getenv("CLOUDINARY_KEY"),
+    api_secret=os.getenv("CLOUDINARY_SECRET"),
+    secure=True,
+)
 
 
-def retrieve_images(rewrited_query, rewrited_query_embedding):  # noqa: ARG001
-    return ""
+def retrieve_images(query):
+    def search_image(search_value):
+        try:
+            search_results = cloudinary.api.resources_by_context(
+                key="description", value=f"{search_value}"
+            )["resources"][0]["url"]
+        except Exception as e:
+            search_results = "No image found"
+        return search_results
 
+    figure_description_path = static_images_cache_path + "figure_description.json"
+    with open(figure_description_path, "r") as f:
+        figure_description = json.load(f)
 
-# def retrieve_images(rewrited_query, rewrited_query_embedding):
-#     images_table = pd.read_excel(static_images_cache_path + "catalog.xlsx")
+    bm25_model_path = static_images_cache_path + "bm25_model.pkl"
+    with open(bm25_model_path, "rb") as f:
+        bm25 = pickle.load(f)
 
-#     # 这里可以做一些工作做更有针对性的检索策略
-
-#     images_list_str = ""
-#     for index, (_, item) in enumerate(images_table.iterrows()):
-#         if int(
-#             item["local"]
-#         ):  # local 变量表示是否为本地的图片文件, 由于图片的description通常情况下是关键词性描述的，不一定包含完整语义，因此这里从one token as term 的 tf-idf（词频的角度）来构造语义向量进行匹配
-#             images_xml = (
-#                 "<image" + str(index) + ">"
-#                 "<description>" + item["description"] + "</description>"
-#                 "<url>" + static_images_cache_path + item["url"] + "</url>"
-#                 "<citation>" + item["citation"] + "</citation>"
-#                 "</image" + str(index) + ">"
-#             )
-#         else:
-#             images_xml = (
-#                 "<image" + str(index) + ">"
-#                 "<description>" + item["description"] + "</description>"
-#                 "<url>" + item["url"] + "</url>"
-#                 "<citation>" + item["citation"] + "</citation>"
-#                 "</image" + str(index) + ">"
-#             )
-#         images_list_str += images_xml
-
-#     images_information_description = (
-#         "The text within the XML tags 'images_list' represents the URLs of the images possibly related to the question and those images are cited in the 'citation' field."
-#         "You can choose some images to output in Markdown image format '![](url)' to help the user understand better."
-#     )
-#     images_reference = (
-#         "<images_information_description>" + images_information_description + "</images_information_description>" "<images_list>" + images_list_str + "</images_list>"
-#     )
-
-#     return ImagesResult(images_reference)
+    tokenized_query = word_tokenize(query)
+    scores = bm25.get_scores(tokenized_query)
+    # k = int(os.getenv("N_FIGURES"))
+    k = 5
+    top_k_indices = np.argsort(scores)[::-1][:k]
+    retrieval_figure = {}
+    for i in top_k_indices:
+        retrieval_figure[figure_description[i]] = search_image(figure_description[i])
+    return retrieval_figure

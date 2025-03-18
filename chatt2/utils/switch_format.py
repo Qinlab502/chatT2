@@ -9,17 +9,14 @@ def dict_to_markdown_table(view):
         keys.update(item.keys())
     keys = list(keys)
 
-    # 生成Markdown表格的头部
     header = "| " + " | ".join(keys) + " |"
     separator = "|---" * len(keys) + "|"
 
-    # 生成表格的数据部分
     rows = []
     for item in data:
         row = "| " + " | ".join(str(item.get(key, "")) for key in keys) + " |"
         rows.append(row)
 
-    # 合并所有部分
     return "\n".join([header, separator, *rows])
 
 

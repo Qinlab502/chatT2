@@ -1,1 +1,0 @@
-Figure 4. N MAEtot for the proposed technique with respect to the regularization parameter f ac1 of the minimization (11). 
