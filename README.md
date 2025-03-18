@@ -28,8 +28,6 @@ In the current version, you still need to upload your personal dataset to a thir
 
 
 
-
-
 # User Preference
 
 All user preference settings can be configured in `config.json`. This file will be used for the initialization of ChatT2.
@@ -44,14 +42,18 @@ All user preference settings can be configured in `config.json`. This file will 
 | `EVALUATOR_EXIST` | `boolean` |Indicates if an evaluator is inputted. If the evaluator is not provided, ChatT2 will provide less precise results. Otherwise, it will yield more accurate results. |
 | `COT_MODE` |`Literal["disable", "fixed", "updated", "auto"]`|Defines the method for CoT reasoning|
 
+
+
 # Quickstart
 
-在提交问题之前，你需要提供一个`config.json`文件来对ChatT2进行初始化。随后你可以向ChatT2询问你的问题
+Before submitting a question, you need to provide a `config.json` file to initialize ChatT2. After that, you can ask ChatT2 your questions.
 
 ```python
+import os
+
+os.environ["CONFIG_PATH"] = "config.json"
+
 from chatt2 import ChatT2
-# Initialize ChatT2 with the configuration file
-chatt2 = ChatT2("config.json")
 
 # Submit an initial question and iterate over the discussion response
 for response in ChatT2.discussion(initial_question="could you describe the biosynthetic pathway formicamycin?"):
