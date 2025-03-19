@@ -1,5 +1,5 @@
 <div align="center">
-<h2>ProtChat: ChatT2: An Adaptive Framework for Developing an LLM-Based Agent for Bacterial Aromatic Polyketide Research</h2>
+<h2>ChatT2: An Adaptive Framework for Developing an LLM-Based Agent for Bacterial Aromatic Polyketide Research</h2>
 </div>
 
 ![](./figures/workflow.png)
