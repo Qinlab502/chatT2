@@ -70,7 +70,7 @@ class ChatT2:
         )
 
         if cot_mode == "disable":
-            max_iterations = int(os.getenv("MAX_ITERATION"))
+            max_iterations = 1
 
         initial_response_from_mentor = mentor.daily_chat()
         error_content = None
@@ -78,7 +78,11 @@ class ChatT2:
         yield {"role": "user", "content": initial_question}
 
         if initial_response_from_mentor:
-            yield initial_response_from_mentor
+            yield {
+                "role": "mentor",
+                "content": initial_response_from_mentor,
+                "status": "finised",
+            }
         else:
             for i in range(max_iterations):
                 try:
@@ -122,11 +126,18 @@ class ChatT2:
                     except Exception as e:
                         raise
 
-                    yield {
-                        "role": "executor",
-                        "content": executor_response,
-                        "status": "thinking",
-                    }
+                    if max_iterations == 1:
+                        yield {
+                            "role": "executor",
+                            "content": executor_response,
+                            "status": "finised",
+                        }
+                    else:
+                        yield {
+                            "role": "executor",
+                            "content": executor_response,
+                            "status": "thinking",
+                        }
 
                 except KeyboardInterrupt:
                     demand = input("Do you have extra demand?\n")
