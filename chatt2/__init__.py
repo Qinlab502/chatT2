@@ -10,7 +10,6 @@ cache_dir = cwd / "cache"
 cache_dir.mkdir(exist_ok=True)  # cache dir is used to store the process of the chatt2
 os.environ["cache_dir"] = str(cache_dir)
 
-# config_path = (root / "../config.json").resolve().relative_to(cwd).as_posix()
 
 config_path = os.getenv("CONFIG_PATH")
 
@@ -18,14 +17,12 @@ with open(config_path, "r") as f:
     config = json.load(f)
 
 for key, value in config.items():
-    os.environ[key] = str(
-        value
-    )  # get the value fiedld in the process: os.getenv("OPENAI_API_KEY")
+    os.environ[key] = str(value)
 
 import traceback
 from typing import Literal
 import time
-from .utils import write_json
+from .utils import write_json, get_text_completion
 from .agents import Evaluator, Executor, Mentor, ExecutorError
 
 
@@ -71,14 +68,14 @@ class ChatT2:
         mentor, evaluator, executor = self.initial_agents(
             initial_question, evaluator_exist, cot_mode
         )
-        print(mentor.cot)
+
         if cot_mode == "disable":
             max_iterations = int(os.getenv("MAX_ITERATION"))
 
         initial_response_from_mentor = mentor.daily_chat()
         error_content = None
 
-        yield "user query: " + initial_question
+        yield {"role": "user", "content": initial_question}
 
         if initial_response_from_mentor:
             yield initial_response_from_mentor
@@ -90,7 +87,11 @@ class ChatT2:
                         stop_criterion=stop_criterion,
                     ):
                         summary_answer = mentor.summary()
-                        yield ("mentor: ", summary_answer)
+                        yield {
+                            "role": "mentor",
+                            "content": summary_answer,
+                            "status": "finised",
+                        }
                         if bool(os.getenv("cache")):
                             cache_schema = {
                                 "user_question": "",
@@ -111,7 +112,7 @@ class ChatT2:
                     question = mentor.generate_next_question(
                         error_content=error_content
                     )
-                    yield "mentor question: " + question
+                    yield {"role": "mentor", "content": question, "status": "thinking"}
 
                     try:
                         executor_response = executor.executing(question)
@@ -121,7 +122,11 @@ class ChatT2:
                     except Exception as e:
                         raise
 
-                    yield "executor response: " + executor_response
+                    yield {
+                        "role": "executor",
+                        "content": executor_response,
+                        "status": "thinking",
+                    }
 
                 except KeyboardInterrupt:
                     demand = input("Do you have extra demand?\n")
