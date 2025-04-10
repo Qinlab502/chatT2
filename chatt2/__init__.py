@@ -36,7 +36,7 @@ class ChatT2:
         elif stop_criterion == "manual":
             user_input = input("wheather to stop?")
             return user_input == "yes"
-        elif stop_criterion == "convergence":  # 这里应该加一个当最后一次迭代时行进总结
+        elif stop_criterion == "convergence":  
             return False
 
     def initial_agents(self, initial_question, evaluator_exist, cot_mode):
@@ -94,7 +94,7 @@ class ChatT2:
                         yield {
                             "role": "mentor",
                             "content": summary_answer,
-                            "status": "finised",
+                            "status": "finished",
                         }
                         if bool(os.getenv("cache")):
                             cache_schema = {
