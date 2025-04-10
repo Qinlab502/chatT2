@@ -130,7 +130,7 @@ class ChatT2:
                         yield {
                             "role": "executor",
                             "content": executor_response,
-                            "status": "finised",
+                            "status": "finished",
                         }
                     else:
                         yield {
